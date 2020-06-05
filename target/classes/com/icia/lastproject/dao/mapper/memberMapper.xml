@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Member"> 
+	
+	<select id="kakaoLogin" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE KAKAOID=#{kakaoId}
+	</select>
+	
+	<select id="naverLogin" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER WHERE NAVERID=#{naverId}
+	</select>
+	
+	<select id="googleLogin" parameterType="String" resultType="String">
+		SELECT GOOGLEID FROM MEMBER WHERE GOOGLEID=#{googleId}
+	</select>
+	
+	<select id="facebookLogin" parameterType="String" resultType="String">
+		SELECT FACEBOOKID FROM MEMBER WHERE FACEBOOKID=#{facebookId}
+	</select>
+	
+	<insert id="googleJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', '', '', '', #{googleId}, #{profile})
+ 	</insert>
+ 	
+ 	<insert id="facebookJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', '', '', #{facebookId}, '', #{profile})
+ 	</insert>
+ 	
+ 	<insert id="kakaoJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', '', #{kakaoId}, '', '', #{profile})
+ 	</insert>
+ 	
+ 	<insert id="naverJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, '', #{name}, #{address}, #{phone}, #{birth}, 1, 0, '', '', #{naverId}, '', '', '', #{profile})
+ 	</insert>
+	
+ 	<insert id="memberJoin" parameterType="member">
+ 		INSERT INTO MEMBER(ID, PASSWORD, NAME, ADDRESS, PHONE, BIRTH, DIVISION, SAVEMONEY, SYS_DATE, CHANGE_DATE, NAVERID, KAKAOID, FACEBOOKID, GOOGLEID, PROFILE)
+		VALUES(#{id}, #{password}, #{name}, #{address}, #{phone}, #{birth}, 1, 0, SYSDATE, SYSDATE+90, '', '', '', '', #{profile})
+ 	</insert>
+ 	
+ 	<insert id="sellerJoin" parameterType="member">
+ 		INSERT INTO MEMBER_SALES(S_NAME, S_NUMBER, ID, PASSWORD, NAME, ADDRESS, PHONE, PROFILE, DIVISION, SYS_DATE, CHANGE_DATE)
+		VALUES(#{s_name}, #{s_number}, #{id}, #{password}, #{name}, #{address}, #{phone}, #{profile}, 2, SYSDATE, SYSDATE+90)
+ 	</insert>
+ 	
+ 	<select id="idOverlap" parameterType="String" resultType="String">
+		SELECT ID FROM (SELECT ID FROM MEMBER_SALES WHERE ID=#{id} UNION ALL SELECT ID FROM MEMBER WHERE ID =#{id}) GROUP BY ID
+	</select>
+ 	
+ 	<select id="memberLogin" parameterType="member" resultType="String">
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="sellerLogin" parameterType="member" resultType="String">
+ 		SELECT * FROM MEMBER_SALES WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="memberIdDivision" parameterType="member" resultType="int">
+ 		SELECT DIVISION FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="sellerIdDivision" parameterType="member" resultType="int">
+ 		SELECT DIVISION FROM MEMBER_SALES WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="memberLoginCheck" parameterType="map" resultType="String">
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="sellerLoginCheck" parameterType="map" resultType="String">
+ 		SELECT ID FROM MEMBER_SALES WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="memberView" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="sellerView" parameterType="String" resultType="member">
+ 		SELECT * FROM MEMBER_SALES WHERE ID=#{id}
+ 	</select>
+ 	
+	<update id="memberModify" parameterType="member">
+		UPDATE MEMBER SET NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profile} WHERE ID=#{id}
+	</update>
+	
+	<update id="sellerModify" parameterType="member">
+		UPDATE MEMBER_SALES SET S_NAME=#{s_name}, S_NUMBER=#{s_number}, NAME=#{name}, ADDRESS=#{address}, PHONE=#{phone}, PROFILE=#{profile} WHERE ID=#{id}
+	</update>
+	
+	<select id="memberList" resultType="member">
+		SELECT * FROM MEMBER WHERE DIVISION=1
+	</select>
+	
+	<select id="reportList" resultType="productReport">
+		SELECT * FROM PRODUCTREPORT
+	</select>
+	
+	<delete id="reportDelete" parameterType="productReport">
+		DELETE FROM PRODUCTREPORT WHERE SELLERID = #{sellerId} AND PRODUCTNO = #{productno} AND TRADE_NAME = #{trade_name} AND REPORTTYPE = #{reporttype}
+	</delete>
+	
+	<select id="sellerList" resultType="member">
+		SELECT * FROM MEMBER_SALES WHERE DIVISION=2
+	</select>
+	
+	<select id="memberBlackList" resultType="member">
+		SELECT * FROM MEMBER WHERE DIVISION=3
+	</select>
+	
+	<select id="sellerBlackList" resultType="member">
+		SELECT * FROM MEMBER_SALES WHERE DIVISION=4
+	</select>
+	
+	<delete id="deleteSellerProductReport" parameterType="String">
+		DELETE FROM PRODUCTREPORT WHERE SELLERID = #{id}
+	</delete>
+	
+	<update id="memberBlackListAdd" parameterType="String">
+		UPDATE MEMBER SET DIVISION=3 WHERE ID=#{id}
+	</update>
+	
+	<update id="sellerBlackListAdd" parameterType="String">
+		UPDATE MEMBER_SALES SET DIVISION=4 WHERE ID=#{id}
+	</update>
+	
+	<update id="memberBlackListDelete" parameterType="String">
+		UPDATE MEMBER SET DIVISION=1 WHERE ID=#{id}
+	</update>
+	
+	<update id="sellerBlackListDelete" parameterType="String">
+		UPDATE MEMBER_SALES SET DIVISION=2 WHERE ID=#{id}
+	</update>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM MEMBER WHERE ID=#{id}
+	</delete>
+	
+	<delete id="sellerDelete" parameterType="String">
+		DELETE FROM MEMBER_SALES WHERE ID=#{id}
+	</delete>
+	
+	<select id="sellerDeleteCheckResult" parameterType="map" resultType="String">
+		SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND PASSWORD=#{password}
+	</select>
+	
+	<select id="memberDeleteCheckResult" parameterType="map" resultType="String">
+		SELECT ID FROM MEMBER WHERE ID=#{id} AND PASSWORD=#{password}
+	</select>
+ 	
+ 	<select id="memberIdFind" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE NAME=#{name} AND BIRTH=#{birth} AND PHONE=#{phone}
+ 	</select>
+ 	
+ 	<select id="sellerIdFind" parameterType="member" resultType="String">
+ 		SELECT ID FROM MEMBER_SALES WHERE S_NAME=#{s_name} AND S_NUMBER=#{s_number} AND NAME=#{name}
+ 	</select>
+ 	
+ 	<update id="newPassword" parameterType="map">
+ 		UPDATE MEMBER SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90 WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<update id="newSellerPassword" parameterType="map">
+ 		UPDATE MEMBER_SALES SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90 WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<select id="emailCheck" parameterType="String" resultType="String">
+ 		SELECT ID FROM MEMBER WHERE ID=#{id}
+ 	</select>
+ 	
+ 	<select id="blackMemberCheck" parameterType="String" resultType="String">
+ 		SELECT ID FROM (SELECT ID FROM MEMBER_SALES WHERE ID=#{id} AND DIVISION=4 UNION ALL SELECT ID FROM MEMBER WHERE ID=#{id} AND DIVISION =3) GROUP BY ID
+ 	</select>
+ 	
+ 	<select id="memberDate" parameterType="String" resultType="String">
+ 		<![CDATA[SELECT CHANGE_DATE FROM MEMBER WHERE ID = #{id} AND CHANGE_DATE < TO_CHAR(SYSDATE, 'YYYYMMDD')]]> 
+ 	</select>
+ 	
+ 	<select id="sellerDate" parameterType="String" resultType="String">
+ 		<![CDATA[SELECT CHANGE_DATE FROM MEMBER_SALES WHERE ID = #{id} AND CHANGE_DATE < TO_CHAR(SYSDATE, 'YYYYMMDD')]]> 
+ 	</select>
+ 	
+ 	<update id="memberOldPasswordChange" parameterType="map">
+ 		UPDATE MEMBER SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90  WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<update id="sellerOldPasswordChange" parameterType="map">
+ 		UPDATE MEMBER_SALES SET PASSWORD=#{password}, SYS_DATE=SYSDATE, CHANGE_DATE=SYSDATE+90  WHERE ID=#{id}
+ 	</update>
+ 	
+ 	<select id="memberAddress" parameterType="String" resultType="String">
+ 		SELECT ADDRESS FROM MEMBER WHERE ID = #{id}
+ 	</select>
+ 	
+ 	<select id="loginMember" parameterType="member" resultType="member">
+ 		SELECT * FROM MEMBER WHERE ID = #{id}
+ 	</select>
+ 	
+ 	<select id="loginSeller" parameterType="member" resultType="member">
+ 		SELECT * FROM MEMBER_SALES WHERE ID = #{id}
+ 	</select>
+ 	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

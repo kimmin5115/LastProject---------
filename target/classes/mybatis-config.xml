@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases> 
+		<typeAlias alias="member" type="com.icia.lastproject.dto.MemberDTO"/>
+		<typeAlias alias="page" type="com.icia.lastproject.dto.PageDTO"/>
+		<typeAlias alias="category" type="com.icia.lastproject.dto.CategoryDTO"/>
+		<typeAlias alias="plist" type="com.icia.lastproject.dto.ProductListTempDTO"/>
+		<typeAlias alias="product" type="com.icia.lastproject.dto.ProductDTO"/>
+		<typeAlias alias="productlist" type="com.icia.lastproject.dto.ProductListDTO"/>
+		<typeAlias alias="Cart" type="com.icia.lastproject.dto.CartDTO"/>
+		<typeAlias alias="paging" type="com.icia.lastproject.dto.PagingDTO"/>
+		<typeAlias alias="auction" type="com.icia.lastproject.dto.AuctionDTO"/>
+		<typeAlias alias="auctionMember" type="com.icia.lastproject.dto.AuctionMemberDTO"/>
+		<typeAlias alias="order" type="com.icia.lastproject.dto.OrderDTO"/>
+		<typeAlias alias="auctionQnA" type="com.icia.lastproject.dto.AuctionQnADTO"/>
+		<typeAlias alias="auctionQnAAnswer" type="com.icia.lastproject.dto.AuctionQnAAnswerDTO"/>
+		<typeAlias alias="review" type="com.icia.lastproject.dto.ReviewDTO"/>
+		<typeAlias alias="qna" type="com.icia.lastproject.dto.ProductQnaDTO"/>
+		<typeAlias alias="answer" type="com.icia.lastproject.dto.ProductAnswerDTO"/>
+		<typeAlias alias="cartprice" type="com.icia.lastproject.dto.CartPriceDTO"/>
+		<typeAlias alias="porder" type="com.icia.lastproject.dto.ProductOrderDTO"/>
+		<typeAlias alias="productbuy" type="com.icia.lastproject.dto.ProductBuyDTO"/>
+		<typeAlias alias="productReport" type="com.icia.lastproject.dto.ProductReportDTO"/>
+		<typeAlias alias="sns" type="com.icia.lastproject.dto.SnsDTO"/>
+		<typeAlias alias="snsFriend" type="com.icia.lastproject.dto.SnsFriendDTO"/>
+		<typeAlias alias="message" type="com.icia.lastproject.dto.MessageDTO"/>
+		<typeAlias alias="airsreservation" type="com.icia.lastproject.dto.air_S_DTO"/>
+		<typeAlias alias="airlreservation" type="com.icia.lastproject.dto.air_L_DTO"/>
+		<typeAlias alias="userreservation" type="com.icia.lastproject.dto.userreservationDTO"/>
+		<typeAlias alias="airreservation" type="com.icia.lastproject.dto.airreservationDTO"/>
+	</typeAliases>
+</configuration>
